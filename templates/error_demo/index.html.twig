@@ -1,0 +1,110 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Authentication Errors Demo{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    <h1 class="h2 mb-0">Symfony Authentication Errors Demonstration</h1>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning">
+                        <h4>Current Authentication Status:</h4>
+                        <strong>Authenticated:</strong> {{ app.user ? 'Yes' : 'No' }}<br>
+                        <strong>User:</strong> {{ app.user ? app.user.userIdentifier : 'None' }}<br>
+                        <strong>Roles:</strong> {{ app.user ? app.user.roles|join(', ') : 'None' }}
+                    </div>
+
+                    <h3>Common Authentication Error Types</h3>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Error Type</th>
+                                    <th>Description</th>
+                                    <th>How to Trigger</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for error, description in common_errors %}
+                                <tr>
+                                    <td><code>{{ error }}</code></td>
+                                    <td>{{ description }}</td>
+                                    <td>
+                                        {% if error == 'UserNotFoundException' %}
+                                            <a href="/secure" class="btn btn-sm btn-outline-danger">Visit /secure</a>
+                                        {% elseif error == 'BadCredentialsException' %}
+                                            <a href="/login-test" class="btn btn-sm btn-outline-warning">Try Login Form</a>
+                                        {% else %}
+                                            <span class="text-muted">Various scenarios</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Trigger Authentication Errors</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p>Try these routes to see different authentication failures:</p>
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+                                            <a href="/secure" class="btn btn-sm btn-danger">/secure</a>
+                                            <span class="ms-2">- User provider error</span>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="/trigger-auth-error" class="btn btn-sm btn-warning">/trigger-auth-error</a>
+                                            <span class="ms-2">- Insufficient roles</span>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="/api/protected" class="btn btn-sm btn-info">/api/protected</a>
+                                            <span class="ms-2">- API authentication required</span>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a href="/debug-user" class="btn btn-sm btn-success">/debug-user</a>
+                                            <span class="ms-2">- Debug current user</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Authentication Debug Information</h5>
+                                </div>
+                                <div class="card-body">
+                                    <h6>Firewall Configuration Issues:</h6>
+                                    <ul>
+                                        <li>Empty user provider configured</li>
+                                        <li>Misconfigured role definitions</li>
+                                        <li>Multiple authentication methods with conflicts</li>
+                                        <li>Missing CSRF configuration for form login</li>
+                                    </ul>
+                                    
+                                    <h6>How to Fix:</h6>
+                                    <ol>
+                                        <li>Configure proper user providers</li>
+                                        <li>Set up user entities with Doctrine</li>
+                                        <li>Configure CSRF protection</li>
+                                        <li>Set up proper password hashing</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
