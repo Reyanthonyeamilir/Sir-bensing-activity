@@ -5,7 +5,16 @@
 {% block body %}
 <div class="container">
     <h1>Dashboard</h1>
-    <p>{{ message }}</p>
-    <p>If you can see this, you are authenticated!</p>
+    
+    {# EXACT MESSAGES FROM INSTRUCTIONS #}
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="alert alert-success">
+            <h3>You are logged in as Admin. You have full access.</h3>
+        </div>
+    {% elseif is_granted('ROLE_USER') %}
+        <div class="alert alert-info">
+            <h3>You are logged in as Regular User. Limited access granted.</h3>
+        </div>
+    {% endif %}
 </div>
 {% endblock %}

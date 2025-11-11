@@ -6,7 +6,12 @@ security:
         users_in_memory:
             memory:
                 users:
-                    admin: { password: admin123, roles: ['ROLE_USER'] }
+                    admin: 
+                        password: '$2y$13$EKODvJVOm6b8DwtpR98VQeul2kFnFwXvKB7TeanOV269YWt4KU8A6'
+                        roles: ['ROLE_ADMIN', 'ROLE_USER']
+                    user:
+                        password: '$2y$13$VguS5Nf7yx6sl90E3qaZleLmb/Bsym3IB5jLTDjVRPWpToJko68rm'
+                        roles: ['ROLE_USER']
 
     firewalls:
         dev:
@@ -14,6 +19,8 @@ security:
             security: false
         
         main:
+            http_basic: ~
+            stateless: true  # ← THIS FORCES AUTHENTICATION EVERY TIME
             provider: users_in_memory
 
     access_control:
