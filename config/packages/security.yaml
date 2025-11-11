@@ -20,8 +20,9 @@ security:
         
         main:
             http_basic: ~
-            stateless: true  # ← THIS FORCES AUTHENTICATION EVERY TIME
+            # stateless: true  # ← THIS FORCES AUTHENTICATION EVERY TIME
             provider: users_in_memory
 
     access_control:
         - { path: ^/dashboard, roles: ROLE_USER }
+
